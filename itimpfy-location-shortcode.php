@@ -2,7 +2,7 @@
 /*
 Plugin Name: ITI Mapify Location Shortcode
 Description: Adds shortcode functionality to Mapify location text fields
-Version: 1.0.0
+Version: 1.0.1
 Author: nkohlmeier@iti4dmv.com
 */
 
@@ -35,7 +35,7 @@ class LocationShortcode {
     $output .= '<p>Located inside the ' . $name . ', the self-service kiosk is a fast, easy way to renew your registration and walk away with your tabs!</p>';
     $output .= '<p>Simply scan your renewal postcard or type in your license plate number, pay your taxes and fees via ';
     
-    if($cash) {
+    if($atts['cash']) {
         $output .= '<strong>cash</strong>, ';
     }
 
@@ -47,7 +47,7 @@ class LocationShortcode {
     $output .= '<h2 class="column-header bold-text">Payment Options</h2>';
     $output .= '<ul>';
 
-    if($cash) {
+    if($atts['cash']) {
         $output .= '<li>Cash</li>';
     }
 
@@ -77,15 +77,14 @@ class LocationShortcode {
 
         // Sanitize attributes
         $address = esc_html($atts['address']);
-        $cash = $atts['cash'] ? true : false;
-
-
+		$address = esc_html($atts['address']);
+    	$cash = $atts['cash'] ? true : false;
 
         // Output sanitized content
         $output = '<div class="tooltip-address"><p>' . do_shortcode($address) . '</p></div></br>';
         $output .= '<div><p><strong>PAYMENT OPTIONS</strong></p>';
         $output .= '<p>';
-        if($cash) {
+        if($atts['cash']) {
             $output .= 'Cash, ';
         }
         $output .= 'Credit & Debit Cards</p></div>';

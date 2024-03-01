@@ -23,7 +23,7 @@ Generates HTML for main description (topmost text-input on map-locations post ed
 #### Shortcode Parameters
 - `name` - Name of location
 - `address` - Address of location, all one line, comma separated
-- `cash` - Boolean (true/false) flag. Insert anywhere in shortcode. Doesn't accept values ex: `cash="true"` does the same as `cash`
+- `cash` - Doesn't expect any specific values. For ex: `cash="true"` does the same as `cash="foo"`
 - `hours` - Accepts hours (renders whatever format is input) separated by semicolons. A new line is made for each hours group between semicolons
 
 #### Shortcode Example
@@ -37,7 +37,7 @@ Generates HTML for tooltip in the map-locations post editor
 
 #### Shortcode Parameters
 - `address` - Address of location, all one line
-- `cash` - Boolean (true/false) flag. Insert anywhere in shortcode. Doesn't accept values ex: `cash="true"` does the same as `cash`
+- `cash` - Doesn't expect any specific values. For ex: `cash="true"` does the same as `cash="foo"`
 
 #### Shortcode Example
 `[itimpfy_location_tooltip address="123 Main St." cash]`

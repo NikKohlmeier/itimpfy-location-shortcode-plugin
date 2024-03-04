@@ -2,7 +2,7 @@
 /*
 Plugin Name: ITI Mapify Location Shortcode
 Description: Adds shortcode functionality to Mapify location text fields
-Version: 1.0.1
+Version: 1.0.2
 Author: nkohlmeier@iti4dmv.com
 */
 
@@ -20,12 +20,14 @@ class LocationShortcode {
         'address' => '',
         'cash' => '',
         'hours' => '',
+	'check' => ''
     ), $atts, 'itimpfy_location_main');
 
     // Sanitize attributes
     $name = sanitize_text_field($atts['name']);
     $address = esc_html($atts['address']);
     $cash = $atts['cash'] ? true : false;
+	$check = $atts['check'] ? true : false;
     $hours = esc_html($atts['hours']);
 
     // Output sanitized content
@@ -47,8 +49,11 @@ class LocationShortcode {
     $output .= '<h2 class="column-header bold-text">Payment Options</h2>';
     $output .= '<ul>';
 
-    if($atts['cash']) {
+    if($cash) {
         $output .= '<li>Cash</li>';
+    }
+	if($check) {
+        $output .= '<li>Check</li>';
     }
 
     $output .= '<li>Credit Card</li><li>Debit Card</li></ul>';
@@ -56,13 +61,13 @@ class LocationShortcode {
 
     // Display hours table
     $hours_rows = explode(';', $hours);
-    $output .= '<table>';
+    $output .= '<ul>';
 
     foreach ($hours_rows as $hours) {
-        $output .= "<tr><td>$hours</td></tr>";  
+        $output .= "<li>$hours</li>";  
     }
 
-    $output .= '</table>';
+    $output .= '</ul>';
     $output .= '</div>';
     $output .= '</div>';
 
@@ -73,20 +78,24 @@ class LocationShortcode {
         $atts = shortcode_atts( array(
             'address' => '',
             'cash' => '',
+            'check' => '',
         ), $atts, 'itimpfy_location_tooltip');
 
         // Sanitize attributes
         $address = esc_html($atts['address']);
-		$address = esc_html($atts['address']);
     	$cash = $atts['cash'] ? true : false;
+		$check = $atts['check'] ? true : false;
 
         // Output sanitized content
         $output = '<div class="tooltip-address"><p>' . do_shortcode($address) . '</p></div></br>';
         $output .= '<div><p><strong>PAYMENT OPTIONS</strong></p>';
         $output .= '<p>';
-        if($atts['cash']) {
+        if($cash) {
             $output .= 'Cash, ';
         }
+		if($check) {
+        $output .= 'Check, ';
+    }
         $output .= 'Credit & Debit Cards</p></div>';
         return $output;
     }
@@ -95,6 +104,7 @@ class LocationShortcode {
         $atts = shortcode_atts( array(
             'address' => '',
             'hours' => '',
+			'check' => '',
         ), $atts, 'itimpfy_location_short_description');
 
         // Sanitize attributes
@@ -106,13 +116,13 @@ class LocationShortcode {
         
         // Display hours table
         $hours_rows = explode(';', $hours);
-        $output .= '<table>';
+        $output .= '<ul>';
 
         foreach ($hours_rows as $hours) {
-            $output .= "<tr><td>$hours</td></tr>";  
+            $output .= "<li>$hours</li>";  
         }
 
-        $output .= '</table>';
+        $output .= '</ul>';
         
         return $output;
         }

@@ -2,7 +2,7 @@
 /*
 Plugin Name: ITI Mapify Location Shortcode
 Description: Adds shortcode functionality to Mapify location text fields
-Version: 1.0.2
+Version: 1.1.0
 Author: nkohlmeier@iti4dmv.com
 */
 
@@ -12,6 +12,46 @@ class LocationShortcode {
         add_shortcode('itimpfy_location_main', array($this,'itimpfy_location_main_shortcode'));
         add_shortcode('itimpfy_location_short_description', array($this,'itimpfy_location_short_description_shortcode'));  
         add_shortcode('itimpfy_location_tooltip', array($this,'itimpfy_location_tooltip_shortcode'));
+
+        // Add menu item to admin menu
+        add_action('admin_menu', array($this, 'add_plugin_page'));
+    }
+
+    // Add plugin page
+    public function add_plugin_page(){
+        add_menu_page(
+            'ITIMapify Location Shortcode',
+            'ITIMapify Shortcode',
+            'manage_options',
+            'itimpfy-location-shortcode',
+            array($this, 'display_plugin_page'),
+            'dashicons-admin-generic',
+            99
+        );
+    }
+
+    // Parse the Markdown
+    public function parse_markdown($markdown){
+        require_once(plugin_dir_path(__FILE__) . 'parsedown/Parsedown.php');
+        $parsedown = new Parsedown();
+        return $parsedown->text($markdown);
+    }
+
+    // Display plugin page
+    public function display_plugin_page(){
+        $readme_file = plugin_dir_path(__FILE__) . 'readme.md';
+        if (file_exists($readme_file)){
+            $readme_content = file_get_contents($readme_file);
+            echo '<div class="wrap">';
+            echo '<h1>ITI-Mapify Location Shortcode</h1>';
+            echo $this->parse_markdown($readme_content);
+            echo '<p>This is where the markdown will go</p>';
+            echo '</div>';
+        } else {
+            echo '<div class="wrap">';
+            echo '<h1>Readme not found</h1>';
+            echo '</div>';
+        }
     }
 
     public function itimpfy_location_main_shortcode($atts) {

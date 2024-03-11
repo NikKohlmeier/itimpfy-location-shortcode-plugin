@@ -1,4 +1,4 @@
-# ITI Mapify [itimpfy] Location Description Shortcode Plugin
+[title]: # ITIMPFY Location Description Shortcode Plugin
 
 ## Objective
 Simplify the management and generation of adding/removing/updating Mapify kiosk locations.

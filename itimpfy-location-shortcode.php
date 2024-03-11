@@ -2,7 +2,7 @@
 /*
 Plugin Name: ITI Mapify Location Shortcode
 Description: Adds shortcode functionality to Mapify location text fields
-Version: 1.1.0
+Version: 1.1.1
 Author: nkohlmeier@iti4dmv.com
 */
 

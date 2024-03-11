@@ -2,3 +2,6 @@
     * Added changelog.txt
     * Added wp-admin plugin menu item, displaying readme.md there
     * Added Parsedown library
+
+1.1.1
+    * Changed readme.md - commented title so it doesn't render in wp-admin

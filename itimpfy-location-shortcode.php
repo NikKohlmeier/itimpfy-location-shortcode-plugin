@@ -123,6 +123,34 @@ class LocationShortcode {
         return $output;
     }
     
+    public function itimpfy_location_tooltip_shortcode($atts) {
+        $atts = shortcode_atts( array(
+            'address' => '',
+            'cash' => '',
+            'check' => '',
+        ), $atts, 'itimpfy_location_tooltip');
+
+        // Sanitize attributes
+        $address = esc_html($atts['address']);
+    	$cash = $atts['cash'] ? true : false;
+		$check = $atts['check'] ? true : false;
+
+        // Output sanitized content
+        $output = '<div class="tooltip-address"><p>' . do_shortcode($address) . '</p></div></br>';
+        $output .= '<div><p><strong>PAYMENT OPTIONS</strong></p>';
+        $output .= '<p>';
+        if($cash) {
+            $output .= 'Cash, ';
+        }
+		if($check) {
+        $output .= 'Check, ';
+    }
+        $output .= 'Credit & Debit Cards</p></div>';
+
+        $output .= '<div class="tooltip-directions">[directions]</div>';
+
+        return $output;
+    }
 
     public function itimpfy_location_short_description_shortcode($atts) {
         $atts = shortcode_atts( array(

@@ -5,3 +5,7 @@
 
 1.1.1
     * Changed readme.md - commented title so it doesn't render in wp-admin
+
+1.2.0
+    * Added 'Get Directions' on tooltip
+    * Refactored main description to use heredoc syntax

@@ -55,90 +55,74 @@ class LocationShortcode {
     }
 
     public function itimpfy_location_main_shortcode($atts) {
-    $atts = shortcode_atts( array(
-        'name' => '',
-        'address' => '',
-        'cash' => '',
-        'hours' => '',
-	'check' => ''
-    ), $atts, 'itimpfy_location_main');
-
-    // Sanitize attributes
-    $name = sanitize_text_field($atts['name']);
-    $address = esc_html($atts['address']);
-    $cash = $atts['cash'] ? true : false;
-	$check = $atts['check'] ? true : false;
-    $hours = esc_html($atts['hours']);
-
-    // Output sanitized content
-    $output = '<div class="main-container">';
-    $output .= '<div class="column-container">';
-    $output .= '<p class="address bold-text">' . $address . '</p>';
-    $output .= '<p>Located inside the ' . $name . ', the self-service kiosk is a fast, easy way to renew your registration and walk away with your tabs!</p>';
-    $output .= '<p>Simply scan your renewal postcard or type in your license plate number, pay your taxes and fees via ';
-    
-    if($atts['cash']) {
-        $output .= '<strong>cash</strong>, ';
-    }
-
-    $output .= '<strong>credit card</strong> or <strong>debit card</strong>, and your registration and license plate decal prints immediately.</p>'
-        . '<p>Questions? <a href="/faq">Visit our FAQ Page</a></p>'
-        . '<p>Renew. Print. Go!</p>';
-    $output .= '</div>';
-    $output .= '<div class="kiosk-details-container">';
-    $output .= '<h2 class="column-header bold-text">Payment Options</h2>';
-    $output .= '<ul>';
-
-    if($cash) {
-        $output .= '<li>Cash</li>';
-    }
-	if($check) {
-        $output .= '<li>Check</li>';
-    }
-
-    $output .= '<li>Credit Card</li><li>Debit Card</li></ul>';
-    $output .= '<h2 class="column-header bold-text">Hours of Operation</h2>';
-
-    // Display hours table
-    $hours_rows = explode(';', $hours);
-    $output .= '<ul>';
-
-    foreach ($hours_rows as $hours) {
-        $output .= "<li>$hours</li>";  
-    }
-
-    $output .= '</ul>';
-    $output .= '</div>';
-    $output .= '</div>';
-
-    return $output;
-    }
-
-    public function itimpfy_location_tooltip_shortcode($atts) {
-        $atts = shortcode_atts( array(
+        $atts = shortcode_atts(array(
+            'name' => '',
             'address' => '',
             'cash' => '',
-            'check' => '',
-        ), $atts, 'itimpfy_location_tooltip');
-
+            'hours' => '',
+            'check' => ''
+        ), $atts, 'itimpfy_location_main');
+    
         // Sanitize attributes
+        $name = sanitize_text_field($atts['name']);
         $address = esc_html($atts['address']);
-    	$cash = $atts['cash'] ? true : false;
-		$check = $atts['check'] ? true : false;
-
-        // Output sanitized content
-        $output = '<div class="tooltip-address"><p>' . do_shortcode($address) . '</p></div></br>';
-        $output .= '<div><p><strong>PAYMENT OPTIONS</strong></p>';
-        $output .= '<p>';
-        if($cash) {
-            $output .= 'Cash, ';
+        $cash = $atts['cash'] ? true : false;
+        $check = $atts['check'] ? true : false;
+        $hours = esc_html($atts['hours']);
+    
+        // Create HTML output using heredoc syntax
+        $payment_options = '';
+        if ($cash) {
+            $payment_options .= '<li>Cash</li>';
         }
-		if($check) {
-        $output .= 'Check, ';
-    }
-        $output .= 'Credit & Debit Cards</p></div>';
+        if ($check) {
+            $payment_options .= '<li>Check</li>';
+        }
+    
+        $hours_list = '';
+        $hours_rows = explode(';', $hours);
+        foreach ($hours_rows as $hour) {
+            $hours_list .= "<li>$hour</li>";
+        }
+    
+        $output = <<<HTML
+    <div class="main-container">
+        <div class="column-container">
+            <p class="address bold-text">$address</p>
+            <p>Located inside the $name, the self-service kiosk is a fast, easy way to renew your registration and walk away with your tabs!</p>
+            <p>Simply scan your renewal postcard or type in your license plate number, pay your taxes and fees via 
+    HTML;
+    
+        if ($cash) {
+            $output .= '<strong>cash</strong>, ';
+        }
+        if ($check) {
+            $output .= '<strong>check</strong>, ';
+        }
+    
+        $output .= <<<HTML
+            <strong>credit card</strong> or <strong>debit card</strong>, and your registration and license plate decal prints immediately.</p>
+            <p>Questions? <a href="/faq">Visit our FAQ Page</a></p>
+            <p>Renew. Print. Go!</p>
+        </div>
+        <div class="kiosk-details-container">
+            <h2 class="column-header bold-text">Payment Options</h2>
+            <ul>
+                $payment_options
+                <li>Credit Card</li>
+                <li>Debit Card</li>
+            </ul>
+            <h2 class="column-header bold-text">Hours of Operation</h2>
+            <ul>
+                $hours_list
+            </ul>
+        </div>
+    </div>
+    HTML;
+    
         return $output;
     }
+    
 
     public function itimpfy_location_short_description_shortcode($atts) {
         $atts = shortcode_atts( array(
